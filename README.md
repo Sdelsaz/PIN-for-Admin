@@ -42,14 +42,14 @@ The following can be customized:
  - phone
  - room
 
- You can set the attribute to be used in Parameter 5
- If no attribute is set, the default is the assetTag
+ You can set the attribute to be used in Parameter 5.
+ If no attribute is set, the default is the assetTag.
 
- You can set the maximum amount of attempts in Parameter 6
- If no value is set, the default is 3
+ You can set the maximum amount of attempts in Parameter 6.
+ If no value is set, the default is 3.
 
- You can set the Length of the PIN in Parameter 7
- If no value is set, the default is 5 characters
+ You can set the Length of the PIN in Parameter 7.
+ If no value is set, the default is 5 characters.
  
  An icon you can use for the policy in Self Service is also provided.
 
