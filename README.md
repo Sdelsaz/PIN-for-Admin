@@ -1,4 +1,4 @@
-![alt text](https://github.com/Sdelsaz/PIN-for-Admin-dev/blob/main/icon.png?raw=true)
+![alt text](https://github.com/Sdelsaz/PIN-for-Admin/blob/main/icon.png?raw=true)
 
 # PIN-for-Admin
 
