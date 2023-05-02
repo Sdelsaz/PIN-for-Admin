@@ -65,7 +65,7 @@
 # Updated On: 2022-11-22 to random PIN creation
 #
 # Updated by: Sebastien Del Saz Alvarez`
-# Updated On: 2024-04-22 to allow to set the maximum number of attempts and the PIN Length
+# Updated On: 2023-04-22 to allow to set the maximum number of attempts and the PIN Length
 #
 #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
