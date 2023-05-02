@@ -30,7 +30,7 @@ The following can be customized:
  After the time is elapsed, their privileges are removed. Any new account that is admin is also
  demoted except the accounts that were admin before the execution of the script.
 
- You can use one of the following attributes to popiulate with a random PIN in Jamf Pro, make sure to choose an attribute that isn't actually used.
+ You can use one of the following attributes to popiulate with a random PIN in Jamf Pro. Make sure to include the Hyphen and choose an attribute that isn't actually used.
 
  - -assetTag
  - -endUsername 		
