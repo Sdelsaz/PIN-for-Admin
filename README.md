@@ -32,15 +32,15 @@ The following can be customized:
 
  You can use one of the following attributes to popiulate with a random PIN in Jamf Pro, make sure to choose an attribute that isn't actually used.
 
- - assetTag
- - endUsername 		
- - realname
- - email
- - position
- - building
- - department
- - phone
- - room
+ - -assetTag
+ - -endUsername 		
+ - -realname
+ - -email
+ - -position
+ - -building
+ - -department
+ - -phone
+ - -room
 
  You can set the attribute to be used in Parameter 5.  If no attribute is set, the default is the assetTag.
 
