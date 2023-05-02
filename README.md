@@ -23,8 +23,7 @@ The following can be customized:
 - $6= Maximum number of attempts
 - $7= Number of characters/PIN length
 
- You can set the amount of time for which they have this privilege in Minutes as Parameter 4
- If not amount of time is set, the default is 10 minutes.
+ You can set the amount of time for which they have this privilege in Minutes as Parameter 4.  If no amount of time is set, the default is 10 minutes.
  
  A window will show them the amount of time left, if they close it the script will still execute
  
@@ -43,14 +42,11 @@ The following can be customized:
  - phone
  - room
 
- You can set the attribute to be used in Parameter 5.
- If no attribute is set, the default is the assetTag.
+ You can set the attribute to be used in Parameter 5.  If no attribute is set, the default is the assetTag.
 
- You can set the maximum amount of attempts in Parameter 6.
- If no value is set, the default is 3.
+ You can set the maximum amount of attempts in Parameter 6.  If no value is set, the default is 3.
 
- You can set the Length of the PIN in Parameter 7.
- If no value is set, the default is 5 characters.
+ You can set the Length of the PIN in Parameter 7.  If no value is set, the default is 5 characters.
  
  An icon you can use for the policy in Self Service is also provided.
 
