@@ -53,5 +53,7 @@ The following can be customized:
  # Pre-requirements:
 
  A PPPC (Privacy Preferences Policy Control), aka TCC, configuration profile is required now to give the atrun command access to the disk. 
- An example is  provided.
+ An example is  provided. IMPORTANT: This profile is needed for the demotion back to standard user.
+
+
 
