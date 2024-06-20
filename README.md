@@ -39,7 +39,7 @@ The following can be customized:
  A PPPC (Privacy Preferences Policy Control), aka TCC, configuration profile is required now to give the atrun command access to the disk. 
  An example is  provided. IMPORTANT: This profile is needed for the demotion back to standard user.
 
- An Extesnion attribute is used to collect the PIN in Jamf pro. The Extension Attribute is provided.
+ An Extension Attribute is used to collect the PIN in Jamf pro. The Extension Attribute is provided.
 
 
 
