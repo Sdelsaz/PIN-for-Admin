@@ -6,7 +6,7 @@ This script is based on Laurent Pertois' Temp Admin script:
 
 https://github.com/laurentpertois/Temp-Admin
 
-This script allows users to request temporary admin privileges. When the time is up it demotes the user and any other accounts that did not originally have admin privileges. The privileges are only granted if the user is able to provide a random PIN that the script generates and sends to Jamf Pro. An extension atribute is used to populate the PIN in Jamf Pro.
+This script allows users to request temporary admin privileges. When the time is up it demotes the user and any other accounts that did not originally have admin privileges. The privileges are only granted if the user is able to provide a random PIN that the script generates and sends to Jamf Pro. An extension atribute is used to collect the PIN in Jamf pro.
 
 The following can be customized:
   
