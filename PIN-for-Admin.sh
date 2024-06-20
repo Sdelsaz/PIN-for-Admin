@@ -21,16 +21,14 @@
 # The script will generate a random PIN, send it to the Jamf Pro Inventory and prompt the user for the PIN.
 # The following can be customized:
 # - The amount of time the user gets Admin Privileges for
-# - The Attribute to populate the PIN with in Jamf Pro
 # - The length of the PIN
 # - The number of PIN attempts allowed.
 #
 # Parameters:
 #
 # $4= Amount of time in minutes
-# $5= Attribute to be used for the PIN
-# $6= Maximum number of attempts
-# $7= Number of characters/PIN length
+# $5= Maximum number of attempts
+# $6= Number of characters/PIN length
 #
 # You can set the amount of time for which they have this privilege in Minutes as Parameter 4
 # If not amount of time is set, the default is 10 minutes.
@@ -40,33 +38,16 @@
 # After the time is elapsed, their privileges are removed. Any new account that is admin is also
 # demoted except the accounts that were admin before the execution of the script.
 #
-# You can use one of the following attributes to popiulate with a random PIN in Jamf Pro, make sure to choose an attribute that isn't actually used.
-#
-# -assetTag
-# -endUsername 		
-# -realname
-# -email
-# -position
-# -building
-# -department
-# -phone
-# -room
-#
-# You can set the attribute to be used in Parameter 5
-# If no attribute is set, the default is the assetTag
-#
-# You can set the maximum amount of attempts in Parameter 6
+# You can set the maximum amount of attempts in Parameter 5
 # If no value is set, the default is 3
 #
-# You can set the Length of the PIN in Parameter 7
+# You can set the Length of the PIN in Parameter 6
 # If no value is set, the default is 5 characters
 #
 # Created by: Sebastien Del Saz Alvarez
 # Updated On: 2022-11-22 to random PIN creation
-#
-# Updated by: Sebastien Del Saz Alvarez`
 # Updated On: 2023-04-22 to allow to set the maximum number of attempts and the PIN Length
-#
+# Updated On: 2024-06-20 to use a hidden local file to store the PIN. This avoids potential issues with recyclinbg existing attributes.
 #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
@@ -84,30 +65,37 @@ else
 fi
 fi
 
-# Check if there is a value passed as $5 for the attribute to be used, if not, defaults to the assetTag
+# Check if there is a value passed as $6 for the maximum number of attempts, if not, defaults to 3
 if [ -z "$5" ]; then
-	Attribute="-assetTag"
-else
-	Attribute="$5"
-fi
-
-# Check if there is a value passed as $6 for the maximum numberr of attempts, if not, defaults to 3
-if [ -z "$6" ]; then
 	MaxAttempt="3"	
 else
-	MaxAttempt="$6"	
+	MaxAttempt="$5"	
 fi
 
 # Check if there is a value passed as $7 for the PIN Lenth, if not, defaults to 5 characters
-if [ -z "$7" ]; then
+if [ -z "$6" ]; then
 	PINLength="5"	
 else
-	PINLength="$7"	
+	PINLength="$6"	
 fi
 
-# Generate a random PIN and populate the assettag with the value
+# Generate a random PIN and populate the attribute of hidden file with the value
+
 PIN=$(printf '%0'$PINLength'd\n' $((1 + RANDOM % 1000000)))
-jamf recon $Attribute $PIN
+
+# write PIN to hidden file
+
+touch /usr/local/.PIN.txt
+
+echo $PIN > /usr/local/.PIN.txt
+
+# Update inventory to populat ethe Extension Attribute
+
+jamf recon
+
+# Delete PIN
+
+> /usr/local/.PIN.txt
 
 while  [[ $UserPin != $PIN ]] && [[ $Attempt -lt $MaxAttempt ]]
 
