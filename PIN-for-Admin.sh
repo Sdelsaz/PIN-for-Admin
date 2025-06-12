@@ -21,8 +21,9 @@
 # The script will generate a random PIN, send it to the Jamf Pro Inventory and prompt the user for the PIN.
 # The following can be customized:
 # - The amount of time the user gets Admin Privileges for
-# - The length of the PIN
 # - The number of PIN attempts allowed.
+# - The length of the PIN
+# 
 #
 # Parameters:
 #
@@ -65,14 +66,14 @@ else
 fi
 fi
 
-# Check if there is a value passed as $6 for the maximum number of attempts, if not, defaults to 3
+# Check if there is a value passed as $5 for the maximum number of attempts, if not, defaults to 3
 if [ -z "$5" ]; then
 	MaxAttempt="3"	
 else
 	MaxAttempt="$5"	
 fi
 
-# Check if there is a value passed as $7 for the PIN Lenth, if not, defaults to 5 characters
+# Check if there is a value passed as $6 for the PIN Lenth, if not, defaults to 5 characters
 if [ -z "$6" ]; then
 	PINLength="5"	
 else
