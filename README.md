@@ -29,7 +29,7 @@ $6= Number of characters/PIN length: You can set the Length of the PIN in Parame
 
 $7= Organisation name: You can set the Organisation Name in Paremeter 7. If no Value is set, "Pin for Admin" is used for the title.
 
-$8= Path to a custom icon: You can provide the path to a custom icon in Paremeter 8. If no Value is set, the default icon is used.
+$8= Path/Link to a custom icon: You can provide the path or link to a custom icon in Paremeter 8. If no Value is set, the default icon is used.
 
 ### Pre-requirements:
 
