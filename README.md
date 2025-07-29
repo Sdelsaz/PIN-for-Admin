@@ -10,7 +10,7 @@ This script uses Bart Reardon's swiftDialog for user communication:
 
 https://github.com/bartreardon/swiftDialog
 
-This script allows users to request temporary administtrator privileges. When the time is up it demotes the user and any other accounts that did not originally have administtrator privileges. The privileges are only granted if the user is able to provide a random PIN that the script generates. An extension atribute is used to collect the PIN in Jamf pro. If administrator privileges are granted, a window will show the amount of time left. The user can close this window without affecting the temporary elevation.
+This script allows users to request temporary administrator privileges. When the time is up it demotes the user and any other accounts that did not originally have administtrator privileges. The privileges are only granted if the user is able to provide a random PIN that the script generates. An extension atribute is used to collect the PIN in Jamf pro. If administrator privileges are granted, a window will show the amount of time left. The user can close this window without affecting the temporary elevation.
 
 ![alt text](https://github.com/Sdelsaz/PIN-for-Admin/blob/main/Images/PinPrompt.png?raw=true)
 
