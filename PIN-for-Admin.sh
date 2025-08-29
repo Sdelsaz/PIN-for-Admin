@@ -104,7 +104,6 @@ UserPin=$(dialog --small --title "$OrgName" --titlefont "$TitleFont" --message "
 if [ $? == 0 ]
 then
 UserPin=$(echo "$UserPin" | awk -F ': ' '{print $2}')
-echo $UserPin
 else
 echo "User cancelled"
 exit 0
