@@ -53,13 +53,13 @@ fi
 # Variables:
 # Check if there is a value passed as $4 for the number of minutes, if not, defaults to 10
 if [ -z "$4" ]; then
-	TEMPMINUTES=600
+	TEMPMINUTES=10
 else
 	
 # Check if the value passed as $4 for the number of minutes is a positive numeric number 
 # without any extra characters (i.e. 10, not +10 or -10), if not, defaults to 10
 if [[ "$4" =~ [^0-9]+ ]] ; then
-	TEMPMINUTES=600
+	TEMPMINUTES=10
 else
 	TEMPMINUTES="$4"
 fi
@@ -122,7 +122,7 @@ AlreadyAdminPrompt()
 
 ElevationCompletePrompt()
 {
-	dialog -s --title "$OrgName" --titlefont "$TitleF0nt" --message "You now have temporary Administrator Privileges.  \n  \nYou can close this window without affecting your temporary elevation." --icon "$Icon" --messagefont "$MessageFont" --timer $TEMPMINUTES --button1text "Close" --alignment "left" --height "40%" --witdh "40%" --moveable --position "topright"
+	dialog -s --title "$OrgName" --titlefont "$TitleF0nt" --message "You now have temporary Administrator Privileges.  \n  \nYou can close this window without affecting your temporary elevation." --icon "$Icon" --messagefont "$MessageFont" --timer $TEMPSECONDS --button1text "Close" --alignment "left" --height "40%" --witdh "40%" --moveable --position "topright"
 }
 
 # Generate a random PIN and populate the attribute of hidden file with the value
