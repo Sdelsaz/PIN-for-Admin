@@ -39,12 +39,12 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 # Check if Swift Dialog is installed. if not, Install it
-logger "Checking if SwiftDialog is installed"
+echo "Checking if SwiftDialog is installed"
 if [[ -e "/usr/local/bin/dialog" ]]
 then
-logger "SwiftDialog is already installed"
+echo "SwiftDialog is already installed"
 else
-logger "SwiftDialog Not installed, downloading and installing"
+echo "SwiftDialog Not installed, downloading and installing"
 /usr/bin/curl https://github.com/swiftDialog/swiftDialog/releases/download/v2.5.5/dialog-2.5.5-4802.pkg -L -o /tmp/dialog-2.5.5-4802.pkg 
 cd /tmp
 /usr/sbin/installer -pkg dialog-2.5.5-4802.pkg -target /
@@ -95,11 +95,13 @@ fi
 
 # Fonts
 MessageFont="size=20,name=PTSans-Regular"
+MessageFont2="size=15,name=PTSans-Regular"
 TitleFont="weight=bold,size=30,name=PTSans-Regular"
 
 # Prompts
 PINPrompt()
 {
+echo "Prompting user for PIN"
 UserPin=$(dialog --small --title "$OrgName" --titlefont "$TitleFont" --message "Please enter the PIN provided by IT." --messagefont "$MessageFont" --icon "$Icon" --alignment "left" --textfield "PIN","secure" : true --button2 --alignment "left" --height "30%")
 if [ $? == 0 ]
 then
@@ -112,18 +114,38 @@ fi
 
 IncorrectPINPrompt()
 {
-	dialog --small --title "$OrgName" --titlefont "$TitleFont" --message "Incorrect PIN provided too many times.\n\n Please contact IT to obtain a PIN." --icon "$Icon" --messagefont "$MessageFont" --button2 --alignment "left" --height "30%" --witdh "40%"
+	dialog --title "$OrgName" --titlefont "$TitleFont" --message "Incorrect PIN provided too many times.\n\n\n Please contact IT to obtain a PIN." --icon "$Icon" --overlayicon "caution" --messagefont "$MessageFont" --button2 --alignment "left" --height "20%" --width "40%"
 }
 
 AlreadyAdminPrompt()
 {
-	dialog -s --title "$OrgName" --titlefont "$TitleFont" --message "You already have elevated privileges." --icon "$Icon" --messagefont "$MessageFont" --button2 --alignment "left" --height "30%" --witdh "40%"
+echo "User $USERNAME is already an admin"
+	dialog --title "$OrgName" --titlefont "$TitleFont" --message "You already have elevated privileges." --icon "$Icon" --messagefont "$MessageFont" --button2 --alignment "left" --height "20%" --width "40%"
 }
 
 ElevationCompletePrompt()
 {
-	dialog -s --title "$OrgName" --titlefont "$TitleF0nt" --message "You now have temporary Administrator Privileges.  \n  \nYou can close this window without affecting your temporary elevation." --icon "$Icon" --messagefont "$MessageFont" --timer $TEMPSECONDS --button1text "Close" --alignment "left" --height "40%" --witdh "40%" --moveable --position "topright"
+	dialog -s --title "$OrgName" --titlefont "$TitleFont" --message "You now have temporary Administrator Privileges.  \n  \nYou can close this window without affecting your temporary elevation." --icon "$Icon" --messagefont "$MessageFont2" --timer $TEMPSECONDS --button1text "Close" --alignment "left" --height "40%" --width "40%" --moveable --position "topright"
 }
+		
+# Get username of current logged in user
+USERNAME=$(/bin/echo 'show State:/Users/ConsoleUser' | /usr/sbin/scutil | /usr/bin/awk '/Name / { print $3 }')
+		
+# Calculates the number of seconds
+TEMPSECONDS=$((TEMPMINUTES * 60))
+		
+# Checks if account is already an admin or not
+echo "Checking privileges for user $USERNAME."
+
+MEMBERSHIP=$(dsmemberutil checkmembership -U "$USERNAME" -G admin)
+
+if [ "$MEMBERSHIP" != "user is not a member of the group" ]; then
+# If user is already an admin, we write this in logs, tell the user and then quit
+echo "User $USERNAME already has elevated privileges."
+AlreadyAdminPrompt
+fi
+		
+if [ "$MEMBERSHIP" == "user is not a member of the group" ]; then
 
 # Generate a random PIN and populate the attribute of hidden file with the value
 PIN=$(printf '%0'$PINLength'd\n' $((1 + RANDOM % 1000000)))
@@ -144,7 +166,7 @@ while  [[ $UserPin != $PIN ]] && [[ $Attempt -lt $MaxAttempt ]]
 do
 # Request PIN from enduser
 Attempt=$(( Attempt +1 ))
-logger "$Attempt Attempt out of $MaxAttempt"
+echo "PIN Attempt $Attempt out of $MaxAttempt"
 
 PINPrompt
 
@@ -152,24 +174,11 @@ done
 
 if [[ "$UserPin" == "$PIN" ]]; then
 
-logger "Correct PIN Provided, granting Temporary Admin Rights"
-		
-# Get username of current logged in user
-USERNAME=$(/bin/echo 'show State:/Users/ConsoleUser' | /usr/sbin/scutil | /usr/bin/awk '/Name / { print $3 }')
-		
-# Calculates the number of seconds
-TEMPSECONDS=$((TEMPMINUTES * 60))
-		
-# Writes in logs
-logger "Checking privileges for $USERNAME."
-		
-# Checks if account is already an admin or not
-MEMBERSHIP=$(dsmemberutil checkmembership -U "$USERNAME" -G admin)
-		
-if [ "$MEMBERSHIP" == "user is not a member of the group" ]; then
+echo "Correct PIN Provided, granting Temporary Admin Rights"
 			
 # Checks if atrun is launched or not (to disable admin privileges after the defined amount of time)
-if ! launchctl list|grep -q com.apple.atrun; then launchctl load -w /System/Library/LaunchDaemons/com.apple.atrun.plist; fi
+if ! launchctl list|grep -q com.apple.atrun; then launchctl load -w /System/Library/LaunchDaemons/com.apple.softwareupdate_firstrun_tasks.plist
+fi
 			
 # Uses at to execute the cleaning script after the defined amount of time
 # Be careful, it can take some time to execute and be delayed under heavy load
@@ -194,27 +203,21 @@ exit $?" | at -t "$(date -v+"$TEMPSECONDS"S "+%Y%m%d%H%M.%S")"
 			
 # Make the user an admin
 /usr/sbin/dseditgroup -o edit -a "$USERNAME" -t user admin
-logger "Elevating $USERNAME."
+echo "Elevating user $USERNAME."
 			
 # Display a window showing how much time is left as an admin using Jamf Helper	
 ElevationCompletePrompt
 
 # Writes in logs when it's done
-logger "Elevation complete."
+echo "Elevation complete."
 exit 0
-fi
-		
-# If user is already an admin, we write this in logs, tell the user and then quit
-logger "User already has elevated privileges."
-AlreadyAdminPrompt
-		
 fi
 
 if [[ "$UserPin" != "$PIN" ]]; then
 
-logger "Incorrect PIN Provided $MaxAttempt times"
+echo "Incorrect PIN Provided $MaxAttempt times. exiting"
 IncorrectPINPrompt
 	
 fi
-
+fi
 exit 0
